@@ -25,21 +25,21 @@ class StoreCards extends StatelessWidget {
       // elevation: 7.0,
       decoration: BoxDecoration(
         color: Colors.white,
-        //borderRadius: BorderRadius.circular(16),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.white60,
-        //     offset: Offset.fromDirection(12),
-        //     blurRadius: 3.0,
-        //     spreadRadius: 3.0,
-        //    ),
-        //     BoxShadow(
-        //     color: Colors.white60,
-        //     offset: Offset.fromDirection(12),
-        //     blurRadius: 3.0,
-        //     spreadRadius: 3.0,
-        //    )
-        // ]
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white60,
+            offset: Offset.fromDirection(12),
+            blurRadius: 3.0,
+            spreadRadius: 3.0,
+           ),
+            BoxShadow(
+            color: Colors.white60,
+            offset: Offset.fromDirection(12),
+            blurRadius: 3.0,
+            spreadRadius: 3.0,
+           )
+        ]
       ),
       height: MediaQuery.of(context).size.height* 0.4,
       width: MediaQuery.of(context).size.width* 0.45,
