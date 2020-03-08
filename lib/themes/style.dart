@@ -17,6 +17,12 @@ ThemeData appTheme() {
         fontWeight: FontWeight.bold,
         color: Color(0xFF425398)
       ),
+      caption: TextStyle(
+        fontFamily: 'Montserrat',
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Color(0xFF425398)
+      ),
       body1: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 17,
