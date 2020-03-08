@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "85765846169",
+    "firebase_url": "https://one-kiosk-d5f2c.firebaseio.com",
+    "project_id": "one-kiosk-d5f2c",
+    "storage_bucket": "one-kiosk-d5f2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85765846169:android:440bce3bdeef04ba56f408",
+        "android_client_info": {
+          "package_name": "com.onekioskafrica.one_kiosk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85765846169-ffos3ea11qubqhs66b6cu5p1qqfkulao.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.onekioskafrica.one_kiosk",
+            "certificate_hash": "5dca4648fa8fe34772eeda8c7e5d4ba4a893bbd4"
+          }
+        },
+        {
+          "client_id": "85765846169-2rpun4ual4usn1hlcf8khl4v06v8jti0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB-JYL3vsvKBACm_ksMuXsWyhwbCZ1yRg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85765846169-2rpun4ual4usn1hlcf8khl4v06v8jti0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
