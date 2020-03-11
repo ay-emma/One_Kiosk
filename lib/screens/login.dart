@@ -136,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
     print("Sign in " + user.displayName);
 
     return user;
+
   }
 
   @override
@@ -183,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   color: Colors.white,
                 ),
-                margin: const EdgeInsets.fromLTRB(0, 180, 0, 0),
+                margin: const EdgeInsets.fromLTRB(0, 170, 0, 0),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Form(
@@ -251,11 +252,11 @@ class _LoginPageState extends State<LoginPage> {
                                 _formKey.currentState.validate()
                                     ? Scaffold.of(context)
                                         .showSnackBar(SnackBar(
-                                        content: Text("The form is valid."),
+                                         content: Text("Valid you are good to go !."),
                                       ))
                                     : Scaffold.of(context)
                                         .showSnackBar(SnackBar(
-                                        content: Text("This is not valid."),
+                                        content: Text("This form is not valid."),
                                       ));
 
                                 if (form.validate()) {
@@ -347,14 +348,24 @@ class _LoginPageState extends State<LoginPage> {
                               RaisedButton(
                                 onPressed: () {
                                   _signIn()
-                                      .then((FirebaseUser user) => print(user))
+                                      .then((FirebaseUser user) {
+
+                                        setState(() {
+
+                                        });
+                                      print(user);}
+
+                                      )
+
                                       .catchError((e) => print(e));
                                   setState(() {
+
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                MyHomePage()));
+                                                MyHomePage())
+                                    );
                                   });
                                 },
                                 shape: RoundedRectangleBorder(
@@ -461,14 +472,14 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                  mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-                SizedBox(
+                 SizedBox(
                   height: 20,
                 ),
-                Image.asset("images/exclamation-mark.png"),
-                SizedBox(
+                 Image.asset("images/exclamation-mark.png"),
+                 SizedBox(
                   height: 15,
                 ),
-                Text("Either Username or password is wroong", style: TextStyle(fontSize:18))
+                 Text("Either Username or password is wroong", style: TextStyle(fontSize:18))
             ],
                 ),
               ),
@@ -496,20 +507,21 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                  mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-                SizedBox(
+                 SizedBox(
                   height: 20,
-                ),
-                Image.asset("images/exclamation-mark.png"),
-                SizedBox(
+                 ),
+                  Image.asset("images/exclamation-mark.png"),
+                  SizedBox(
                   height: 15,
-                ),
-                Text("user does not exist", style: TextStyle(fontSize:18))
+                 ),
+                 Text("user does not exist", style: TextStyle(fontSize:18))
             ],
                 ),
               ),
             ),
            );
-         }  );
+         }
+         );
        
       }
 

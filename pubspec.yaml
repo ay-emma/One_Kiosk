@@ -27,16 +27,14 @@ dependencies:
   rate_my_app: 
   firebase_auth: ^0.15.4
   google_sign_in: ^4.1.1
-  google_fonts: ^0.3.6
+  url_launcher: ^5.4.2
   http: ^0.12.0+4
-  json_annotation: ^3.0.1
-  built_value: ^7.0.8
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner:
-  json_serializable:
+ 
 
 
 # For information on the generic Dart part of this file, see the
@@ -52,10 +50,15 @@ flutter:
   assets:
     - images/one.jpg
     
-    - images/lady_on_bike.png
+
     - images/custormer_cart.png
     - images/image_map.png
+    - images/lady_on_bike.png
     - images/exclamation-mark.png
+    - images/address.png
+    - images/forgot.png
+    - images/oneKioskLogo.png
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
@@ -76,7 +79,7 @@ flutter:
     - family: Montserrat
       fonts:
         - asset: fonts/Montserrat/Montserrat-Regular.ttf
-        - asset: fonts/Montserrat/Montserrat-Italic.ttf
+        
           
   #   - family: Trajan Pro
   #     fonts:

@@ -534,6 +534,38 @@ class _SignUpPageState extends State<SignUpPage> {
       print(response.body);
       print("Account Successfully created");
       //succeccfull created
+
+      showModalBottomSheet(context: context, builder: (context){
+        return Container(
+          height: 300,
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(20),
+                topRight: const Radius.circular(20),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset("images/exclamation-mark.png"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text("Validation error", style: TextStyle(fontSize:18))
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+
       setState(() {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => VerifyUser()));
@@ -543,6 +575,38 @@ class _SignUpPageState extends State<SignUpPage> {
     if (response.statusCode == 500) {
       print(response.body);
       print("server error"); //server error
+
+      showModalBottomSheet(context: context, builder: (context){
+        return Container(
+          height: 300,
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(20),
+                topRight: const Radius.circular(20),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset("images/exclamation-mark.png"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text("Server error", style: TextStyle(fontSize:18))
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+
     }
 
       //forbedin
@@ -555,19 +619,111 @@ class _SignUpPageState extends State<SignUpPage> {
       // It is expected that this part of the code is not ment to run because it will not be fixed after production
       print(response.body);
       print("Validation error"); //created
-      
+
+      showModalBottomSheet(context: context, builder: (context){
+        return Container(
+          height: 300,
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(20),
+                topRight: const Radius.circular(20),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset("images/exclamation-mark.png"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text("Validation error", style: TextStyle(fontSize:18))
+                ],
+              ),
+            ),
+          ),
+        );
+      });
     }
     if (response.statusCode == 404) {
       print(response.body);
       print(" server not found");
 
-    }
+      showModalBottomSheet(context: context, builder: (context){
+        return Container(
+          height: 300,
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(20),
+                topRight: const Radius.circular(20),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset("images/exclamation-mark.png"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text("Server not found", style: TextStyle(fontSize:18))
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+  }
 
     
 
     if (response.statusCode == 409) {
       print(response.body);
       print("user already exist");
+
+      showModalBottomSheet(context: context, builder: (context){
+        return Container(
+          height: 300,
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(20),
+                topRight: const Radius.circular(20),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset("images/exclamation-mark.png"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text("user already exist", style: TextStyle(fontSize:18))
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
     }

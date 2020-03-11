@@ -29,11 +29,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             SizedBox(
               height: 30,
             ),
-            Icon(
-              Icons.lock,
-              size: 200,
-              color: Colors.orange,
-            ),
+            Image.asset("images/forgot.png"),
             SizedBox(
               height: 25,
             ),

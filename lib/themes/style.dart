@@ -4,6 +4,7 @@ ThemeData appTheme() {
   return ThemeData(
     primarySwatch: Colors.blue,
     textTheme: TextTheme(
+      
       title: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 24,

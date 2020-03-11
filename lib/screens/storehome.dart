@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +11,8 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 import 'enterYourLocation.dart';
-
+//ketboard arrow down
+//Expand more
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -73,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title:
             Text("Stores", style: TextStyle(color: Colors.white, fontSize: 25)),
         actions: <Widget>[
-          Icon(Icons.shopping_cart, color: Colors.white),
           IconButton(
               icon: Icon(
                 Icons.search,
@@ -82,6 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 showSearch(context: context, delegate: DataSearch());
               }),
+          Icon(Icons.shopping_cart, color: Colors.white),
+
           SizedBox(
             width: 15,
           ),
@@ -305,7 +306,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 20.0,
+                vertical: 10.0,
                 horizontal: 15.0,
               ),
               child: Row(
@@ -338,6 +339,26 @@ class _MyHomePageState extends State<MyHomePage> {
                         )),
                   ),
                 ],
+              ),
+            ),
+            InkWell(
+              child: Card(
+                child: Row(
+                  children: <Widget>[
+                    Image.asset("images/address.png"),
+                    Column(
+                      children: <Widget>[
+                        Text("Home"),
+                        Text("54 Demuring Str. Ketu Lagos",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                         ),
+                      ],
+                    ),
+                    Icon(Icons.expand_more)
+                  ],
+                ),
               ),
             ),
             // Expanded(
@@ -397,8 +418,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class DataSearch extends SearchDelegate<String> {
   final stores = [
-    "Justrigt",
-    "Julius Berger",
+    "justrigt",
+    "julius Berger",
     "chi Limited",
     "chivita",
     "obasis store",
@@ -407,6 +428,10 @@ class DataSearch extends SearchDelegate<String> {
     "devines Provicings",
     "chicken Republic",
     "oasis",
+    "macdonals",
+    "shoprite",
+    "payless ketu",
+    "payless ikorodu",
     "Mr. Bigges",
     "Olive Supermate",
     "Mendeleve Pharmacy",
@@ -578,6 +603,7 @@ class StoreCards extends StatelessWidget {
                       //     child: Center(child: Text("    open", style: TextStyle( color: Colors.white, fontWeight: FontWeight.w600 ),)),
                       //   ),
                       // )
+
                     ],
                       ),
                   ),

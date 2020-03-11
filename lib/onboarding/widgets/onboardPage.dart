@@ -24,10 +24,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   Animation<double> bounceAnimation;
   Animation<double> borderAnimation;
 
-  setVisitingFlag() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setBool("visited_Before", true);
-  }
+  
 
   @override
   void initState() {
@@ -140,7 +137,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                   GestureDetector(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage() ));
-                      setVisitingFlag();
+                      
                     },
                       child: Text(
                     "Skip",
@@ -196,10 +193,8 @@ class _OnboardingPageState extends State<OnboardingPage>
       borderRadius: BorderRadius.circular(8.0),
       child: InkWell(
         onTap: () {
-
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => AccountPage()));
-              setVisitingFlag();
         },
         child: Container(
           width: 90,

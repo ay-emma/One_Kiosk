@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:one_kiosk/screens/account_page.dart';
+import 'package:one_kiosk/screens/firstPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/onboarding.dart';
 
 void main() => runApp(MyApp());
 
-
 class MyApp extends StatelessWidget {
 
-  setVisitingFlag() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setBool("visited_Before", true);
-  }
+  // setVisitingFlag() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   preferences.setBool("visited_Before", true);
+  // }
 
-  getVisitingFlag() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool alreadyVisitedBefore = preferences.getBool("visited_Before") ?? false;
-    return alreadyVisitedBefore;
-  }
+  // getVisitingFlag() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   bool alreadyVisitedBefore = preferences.getBool("visited_Before") ?? false;
+  //   return alreadyVisitedBefore;
+  // }
   
 //  Widget myflag() {
 //    bool whatFlag;
@@ -40,18 +40,16 @@ class MyApp extends StatelessWidget {
 //             }
 //           }
 //     return whichWidget();
-    
-    
+
 //   }
 
-void goingToAcctPage(){
-  setVisitingFlag();
-
-}
+// void goingToAcctPage(){
+//   setVisitingFlag();
+// }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsFlutterBinding.ensureInitialized();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -60,11 +58,9 @@ void goingToAcctPage(){
         fontFamily: 'Montserrat',
         primarySwatch: Colors.orange,
       ),
-      home: getVisitingFlag() == true ? AccountPage() : Onboarding(),
-        //Onboarding(),
+      home: FirstPage(),
       );
     
   }
 
-  
 }
