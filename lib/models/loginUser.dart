@@ -1,5 +1,3 @@
-
-
 class LoginUser {
   final String username;
   final String password;

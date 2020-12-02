@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:one_kiosk/models/testinghttp.dart';
+import 'package:one_kiosk/FlutterMockD/StorePage.dart';
+import 'package:one_kiosk/models/loginUserModel.dart';
+import 'package:one_kiosk/models/signUpuser.dart';
 import 'package:one_kiosk/screens/login.dart';
 import 'package:one_kiosk/screens/passwordValidation.dart';
-import 'package:one_kiosk/screens/storehome.dart';
 import 'package:http/http.dart' as http;
+import 'package:one_kiosk/screens/storehome.dart';
 import 'dart:convert';
 
 import 'package:one_kiosk/screens/verifyAccout.dart';
+import 'package:one_kiosk/screens/widgets/common_widgets.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -24,6 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _lastname = "";
   String _firstname = "";
   String _email = "";
+  String _address = "";
   String _stdPhoneNo;
   String _phoneNo = "";
   String _password = "";
@@ -71,38 +76,43 @@ class _SignUpPageState extends State<SignUpPage> {
     setState(() {
       _stdPhoneNo = _currentItemSelected + _phoneNo.substring(1, 11);
 
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => MyHomePage()));  this code is not meant to be here
     });
     //sendData();
   }
 
-  void sendgfData() {
-    print(_firstname);
-    print(_lastname);
-    print(_email);
+  //checks if user accpted terms and conditions
+  bool _termsChecked = false;
 
-    print(_stdPhoneNo);
-    print(_password);
-    print("new");
-    print(_currentCountrySelected);
-    print(_currentStateSelected);
-    // User signinUp_A_User = User();
-  }
+  // void sendgfData() {
+  //   print(_firstname);
+  //   print(_lastname);
+  //   print(_email);
+
+  //   print(_stdPhoneNo);
+  //   print(_address);
+  //   print(_password);
+  //   print("new");
+  //   print(_currentCountrySelected);
+  //   print(_currentStateSelected);
+  //   // User signinUp_A_User = User();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: NotificationListener(
-        onNotification:  (ayo) {
+        onNotification: (ayo) {
           if (ayo is ScrollUpdateNotification) {
             setState(() {
               topOne = topOne - ayo.scrollDelta / 3;
               topTwo = topTwo - ayo.scrollDelta / 1;
             });
           }
-         // return ayo;
+          // return ayo;
+          return null;
         },
         child: Stack(
           children: <Widget>[
@@ -207,14 +217,18 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: 10,
                         ),
                         TextFormField(
-                          onChanged: (String val) =>
-                              setState(() => _firstname = val),
+                          // onChanged: (String val) =>
+                          //     setState(() => _firstname = val),
+
+                          //Decided to use onSaved in other to prevent stateRebuild
+                          onSaved: (String val) => _firstname = val,
                           validator: (value) {
                             if (value.isEmpty) {
                               return "You can't have an empty name";
-                            }
-                            if (value.length < 2) {
+                            } else if (value.length < 2) {
                               return "Name must have more than one Character!";
+                            } else {
+                              return null;
                             }
                             //return value;
                           },
@@ -230,16 +244,15 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: 20,
                         ),
                         TextFormField(
-                          onChanged: (String val) =>
-                              setState(() => _lastname = val),
+                          onSaved: (String val) => _lastname = val,
                           validator: (value) {
                             if (value.isEmpty) {
                               return "You can't have an empty name";
-                            }
-                            if (value.length < 2) {
+                            } else if (value.length < 2) {
                               return "Name must have more than one Character!";
+                            } else {
+                              return null;
                             }
-                            //return value;
                           },
                           decoration: InputDecoration(
                             hintText: "Lastname",
@@ -254,22 +267,31 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: 20,
                         ),
                         TextFormField(
-                          onChanged: (String val) =>
-                              setState(() => _email = val),
-                          validator: (value) {
+                          onSaved: (String val) => _email = val,
+                          validator: (String value) {
                             if (value.isEmpty) {
-                              return "You can't have an empty emil";
+                              return "Enter an email adress";
                             }
-                            if (value.length < 12) {
+                            String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+                                "\\@" +
+                                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                                "(" +
+                                "\\." +
+                                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                                ")+";
+                            RegExp regExp = RegExp(p);
+                            if (!regExp.hasMatch(value)) {
+                              return "Email is no valid";
+                            } else if (value.length < 12) {
                               //adewomi@gmail.com
                               return "email must have more than 12 Character!";
-                            }
-                            if (!value.contains("@")) {
+                            } else if (!value.contains("@")) {
                               return "@ what mail service";
-                            }
-                            if (!value.contains(".")) {
+                            } else if (!value.contains(".")) {
                               return " . what";
-                            }
+                            } else
+                              return null;
+
                             //return value;
                           },
                           decoration: InputDecoration(
@@ -309,16 +331,15 @@ class _SignUpPageState extends State<SignUpPage> {
                             Expanded(
                               flex: 3,
                               child: TextFormField(
-                                onChanged: (String val) =>
-                                    setState(() => _phoneNo = val),
+                                onSaved: (String val) => _phoneNo = val,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return "You can't have an empty PhoneNo";
-                                  }
-                                  if (value.length < 11) {
+                                  } else if (value.length < 11) {
                                     //adewomi@gmail.com
                                     return "Phone Number must have 11 Character!";
-                                  }
+                                  } else
+                                    return null;
                                   //return value;
                                 },
                                 decoration: InputDecoration(
@@ -337,20 +358,38 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: 20,
                         ),
                         TextFormField(
-                          onChanged: (String val) =>
-                              setState(() => _password = val),
+                          onSaved: (String val) => _address = val,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Please fill in an address";
+                            } else
+                              return null;
+                            //return value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: "Home Address",
+                            labelText: "Home Address",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          onSaved: (String val) => _password = val,
                           validator: (value) {
                             if (value.isEmpty) {
                               return "You can't have an empty password";
-                            }
-                            if (value.length < 8) {
+                            } else if (value.length < 8) {
                               //adewomi@gmail.com
                               return "Password must have more than 7 Character!";
-                            }
-                            if (isPasswordCompliant(value) == false) {
+                            } else if (isPasswordCompliant(value) == false) {
                               //adewomi@gmail.com
-                              return " Uppercase, lowercase and a symbol are required";
-                            }
+                              return " Uppercase, lowercase, number and a symbol are required";
+                            } else
+                              return null;
                             //return value;
                           },
                           obscureText: _showPassword,
@@ -365,7 +404,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ? Icon(Icons.visibility)
                                   : Icon(Icons.visibility_off),
                             ),
-                           
                             hintText: "Password",
                             helperText:
                                 "Your must have an Uppecase, Lowercase a number and a symbol",
@@ -379,15 +417,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: 25,
                         ),
                         TextFormField(
-                          onChanged: (String val) =>
-                              setState(() => _confirmPassword = val),
+                          onSaved: (String val) => _confirmPassword = val,
                           validator: (value) {
                             if (value.isEmpty) {
                               return "You must confirm your password";
-                            }
-                            if (_password != _confirmPassword) {
+                            } else if (_password != _confirmPassword) {
                               return "Your password did\'nt match";
-                            }
+                            } else
+                              return null;
                             //return value;
                           },
                           obscureText: _showConfirmPassword,
@@ -416,8 +453,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Checkbox(
-                              value: true,
-                              onChanged: null,
+                              onChanged: (bool ischecked) {
+                                _termsChecked = ischecked;
+                              },
+                              value: _termsChecked,
                               activeColor: Colors.orangeAccent,
                             ),
                             Text(
@@ -446,15 +485,30 @@ class _SignUpPageState extends State<SignUpPage> {
                                       ));
 
                                 if (form.validate()) {
-                                  form.save();
-                                  sendFormData();
-                                  sendgfData();
-                                  performSignUp();
+                                  if (_termsChecked == false) {
+                                    showmybottomsheets(context,
+                                        "please accept our terms and conditions");
+                                  } else {
+                                    form.save();
+                                    final saveform =
+                                        Provider.of<LoginUserModel>(context,
+                                            listen: false);
+                                    saveform
+                                        .setUserData(
+                                            _email, _password, _address)
+                                        .then((_) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => StorePage(),
+                                        ),
+                                      );
+                                    });
+                                    // sendFormData();
+                                    // sendgfData();
+                                    // performSignUp();
+                                  }
                                 }
-                                //Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //      builder: (context) => MyHomePage()));
                               },
                               child: Container(
                                 height: 50.0,
@@ -513,9 +567,10 @@ class _SignUpPageState extends State<SignUpPage> {
       country: _currentCountrySelected,
       password: _confirmPassword,
       phone: stdPhoneNo,
+      address: _address,
       state: _currentStateSelected,
-      type:"user",
-       // you noukel head you didn't add this line of code [non-sense]
+      type: "user",
+      // you noukel head you didn't add this line of code [non-sense]
     );
     var formBody = userData.toJson();
     String url = "http://onekiosk-api.herokuapp.com/api/v1/auth/signup";
@@ -528,44 +583,10 @@ class _SignUpPageState extends State<SignUpPage> {
         headers: {'Content-Type': 'application/json; charset=UTF-8'});
 // femi longe  Micro straction
 
-   
-
     if (response.statusCode == 201) {
       print(response.body);
       print("Account Successfully created");
       //succeccfull created
-
-      showModalBottomSheet(context: context, builder: (context){
-        return Container(
-          height: 300,
-          color: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(20),
-                topRight: const Radius.circular(20),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Image.asset("images/exclamation-mark.png"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text("Validation error", style: TextStyle(fontSize:18))
-                ],
-              ),
-            ),
-          ),
-        );
-      });
-
       setState(() {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => VerifyUser()));
@@ -576,153 +597,32 @@ class _SignUpPageState extends State<SignUpPage> {
       print(response.body);
       print("server error"); //server error
 
-      showModalBottomSheet(context: context, builder: (context){
-        return Container(
-          height: 300,
-          color: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(20),
-                topRight: const Radius.circular(20),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Image.asset("images/exclamation-mark.png"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text("Server error", style: TextStyle(fontSize:18))
-                ],
-              ),
-            ),
-          ),
-        );
-      });
-
+      showmybottomsheets(context, "server error");
     }
-
-      //forbedin
-      //422 validation error
-      //404 not found
-      //300 redirect
-      //409 user already exist
-    
+    //forbedin
+    //422 validation error
+    //404 not found
+    //300 redirect
+    //409 user already exist
     if (response.statusCode == 422) {
       // It is expected that this part of the code is not ment to run because it will not be fixed after production
       print(response.body);
       print("Validation error"); //created
 
-      showModalBottomSheet(context: context, builder: (context){
-        return Container(
-          height: 300,
-          color: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(20),
-                topRight: const Radius.circular(20),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Image.asset("images/exclamation-mark.png"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text("Validation error", style: TextStyle(fontSize:18))
-                ],
-              ),
-            ),
-          ),
-        );
-      });
+      showmybottomsheets(context, "Validation error");
     }
     if (response.statusCode == 404) {
       print(response.body);
       print(" server not found");
 
-      showModalBottomSheet(context: context, builder: (context){
-        return Container(
-          height: 300,
-          color: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(20),
-                topRight: const Radius.circular(20),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Image.asset("images/exclamation-mark.png"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text("Server not found", style: TextStyle(fontSize:18))
-                ],
-              ),
-            ),
-          ),
-        );
-      });
-  }
-
-    
+      showmybottomsheets(context, " server not found");
+    }
 
     if (response.statusCode == 409) {
       print(response.body);
       print("user already exist");
 
-      showModalBottomSheet(context: context, builder: (context){
-        return Container(
-          height: 300,
-          color: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(20),
-                topRight: const Radius.circular(20),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Image.asset("images/exclamation-mark.png"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text("user already exist", style: TextStyle(fontSize:18))
-                ],
-              ),
-            ),
-          ),
-        );
-      });
+      showmybottomsheets(context, "user already exist");
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -757,7 +657,7 @@ class _SignUpPageState extends State<SignUpPage> {
   }
   // void _onButtomSheetCalled(String exception){
   //   showBottomSheet(context: context, builder: (context) (){
-      
+
   //   })
   // }
 }

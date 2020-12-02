@@ -1,18 +1,18 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:one_kiosk/authentication/categories_page.dart';
+import 'package:one_kiosk/models/loginUserModel.dart';
 import 'package:one_kiosk/screens/account_page.dart';
+import 'package:one_kiosk/screens/login.dart';
 import 'package:one_kiosk/screens/storeProduct.dart';
 import 'package:one_kiosk/screens/verifyAccout.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-
+import 'package:provider/provider.dart';
 import 'enterYourLocation.dart';
-//ketboard arrow down
-//Expand more
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -82,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 showSearch(context: context, delegate: DataSearch());
               }),
           Icon(Icons.shopping_cart, color: Colors.white),
-
           SizedBox(
             width: 15,
           ),
@@ -91,31 +90,38 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                //gradient: LinearGradient(
-                //   colors: [Color(0xFFd84801), Color(0xFFfe8b14)]
-                gradient: LinearGradient(
-                    colors: [Color(0xFFd84801), Color(0xFFffbe7c)]),
-              ),
-              accountName: Text(
-                "Kanye West",
-                style: TextStyle(color: Colors.white),
-              ),
-              accountEmail: Text(
-                "kanyewest120@gmail.ng",
-                style: TextStyle(color: Colors.white),
-              ),
-              currentAccountPicture: CircleAvatar(
-                child: Icon(
-                  Icons.account_circle,
-                  size: 70.0,
-                  color: Colors.grey,
-                ),
-              ),
+            Consumer<LoginUserModel>(
+              builder: (context, loginData, child) {
+                return UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(
+                    //gradient: LinearGradient(
+                    //   colors: [Color(0xFFd84801), Color(0xFFfe8b14)]
+                    gradient: LinearGradient(
+                        colors: [Color(0xFFd84801), Color(0xFFffbe7c)]),
+                  ),
+                  accountName: Text(
+                    loginData.username ?? "new user",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  accountEmail: Text(
+                    loginData.password ?? "new pass",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  currentAccountPicture: CircleAvatar(
+                    child: Icon(
+                      Icons.account_circle,
+                      size: 70.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                );
+              },
             ),
             ListTile(
-              onTap: (() {}),
+              onTap: (() {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              }),
               title: Row(
                 children: <Widget>[
                   SizedBox(
@@ -126,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.grey,
                   ),
                   SizedBox(
-                    width: 10.0,
+                    width: 5.0,
                   ),
                   Text(
                     "Stores",
@@ -150,31 +156,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.grey,
                   ),
                   SizedBox(
-                    width: 10.0,
+                    width: 5.0,
                   ),
                   Text(
                     "Categories",
-                    style: TextStyle(fontSize: 20.0),
-                  )
-                ],
-              ),
-            ),
-            ListTile(
-              onTap: (() {}),
-              title: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 5.0,
-                  ),
-                  Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    "Explore",
                     style: TextStyle(fontSize: 20.0),
                   )
                 ],
@@ -195,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.grey,
                   ),
                   SizedBox(
-                    width: 10.0,
+                    width: 5.0,
                   ),
                   Text(
                     "Account",
@@ -222,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.grey,
                   ),
                   SizedBox(
-                    width: 10.0,
+                    width: 5.0,
                   ),
                   Text(
                     "Share",
@@ -248,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.grey,
                   ),
                   SizedBox(
-                    width: 10.0,
+                    width: 5.0,
                   ),
                   Text(
                     "Send Feedback",
@@ -273,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.grey,
                   ),
                   SizedBox(
-                    width: 10.0,
+                    width: 5.0,
                   ),
                   Text(
                     "Log out",
@@ -287,10 +272,9 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Row(
                 children: <Widget>[
                   SizedBox(
-                    width: 45.0,
+                    width: 30.0,
                   ),
                   //Icon(Icons.album, color: Colors.grey,),
-
                   Text(
                     "About OneKiosk",
                     style: TextStyle(fontSize: 20.0),
@@ -304,60 +288,42 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 15.0,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Material(
-                    child: InkWell(
-                        onTap: (() {}),
-                        child: Container(
-                          padding: const EdgeInsets.all(11.0),
-                          child: Text("Recently added stores"),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: Colors.grey[200],
-                          ),
-                        )),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Material(
-                    child: InkWell(
-                        onTap: (() {}),
-                        child: Container(
-                          padding: const EdgeInsets.all(11.0),
-                          child: Text("Top stores"),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: Colors.grey[200],
-                          ),
-                        )),
-                  ),
-                ],
-              ),
-            ),
             InkWell(
-              child: Card(
-                child: Row(
-                  children: <Widget>[
-                    Image.asset("images/address.png"),
-                    Column(
-                      children: <Widget>[
-                        Text("Home"),
-                        Text("54 Demuring Str. Ketu Lagos",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                         ),
-                      ],
+              onTap: () {},
+              child: Center(
+                child: Container(
+                  height: 60,
+                  width: 245,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset("images/address.png"),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Column(
+                            children: <Widget>[
+                              Text("Home"),
+                              Container(
+                                child: Text(
+                                  "54 Demuring Str. Ketu",
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Icon(Icons.expand_more)
+                        ],
+                      ),
                     ),
-                    Icon(Icons.expand_more)
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -380,24 +346,23 @@ class _MyHomePageState extends State<MyHomePage> {
             //       }),
             // ),
             Expanded(
-
               flex: 2,
               child: GridView.count(
                 crossAxisCount: 2,
-                children: List.generate(data.length == null ? 0 : data.length, (index) {
-                  return  Container(
+                children: List.generate(data.length == null ? 0 : data.length,
+                    (index) {
+                  return Container(
                     color: Colors.white,
                     height: 550,
                     child: StoreCards(
-                          imagePath: data[index]["image_url"],
-                          storeName: data[index]["storeName"],  //storeName
-                          storeCategories: data[index]["category"],
-                          openedOrclosed: data[index]["status"],
-                          storePage: (){
-                            print("${data[index]["vendorId"]}" );
-                          }),
+                        imagePath: data[index]["image_url"],
+                        storeName: data[index]["storeName"], //storeName
+                        storeCategories: data[index]["category"],
+                        openedOrclosed: data[index]["status"],
+                        storePage: () {
+                          print("${data[index]["vendorId"]}");
+                        }),
                   );
-                 
                 }),
               ),
             )
@@ -450,7 +415,6 @@ class DataSearch extends SearchDelegate<String> {
   @override
   List<Widget> buildActions(BuildContext context) {
     // actions for app bar
-
     return [
       IconButton(
           icon: Icon(Icons.clear),
@@ -542,6 +506,7 @@ class StoreCards extends StatelessWidget {
       // elevation: 7.0,
       decoration: BoxDecoration(
         color: Colors.white,
+
         //borderRadius: BorderRadius.circular(16),
         // boxShadow: [
         //   BoxShadow(
@@ -558,72 +523,89 @@ class StoreCards extends StatelessWidget {
         //    )
         // ]
       ),
-      height: MediaQuery.of(context).size.height* 0.4,
-      width: MediaQuery.of(context).size.width* 0.45,
+      height: MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width * 0.45,
       child: Card(
-              child: Column(
+        child: Column(
           children: <Widget>[
-            Expanded(flex: 3, child: Image.network(imagePath)),
             Expanded(
-              flex: 3,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 6,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(storeName, style: TextStyle( fontSize: 12, fontWeight: FontWeight.bold  ),),
-                      Row(
+                flex: 3,
+                child: Image.network(imagePath,
+                    fit: BoxFit.fitWidth //fitwidth might be a good idea
+                    )),
+            Expanded(
+                flex: 3,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          storeName,
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.star,
+                              color: Colors.orange,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.orange,
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Icon(Icons.star),
-                          Icon(Icons.star),
-                          
-                          
+                          wrapedChips(storeCategories),
+                          // ClipPath(
+                          //   clipper: TripeziumButton(),
+                          //   child: Container(
+                          //     width: 65,
+                          //     height: 30,
+                          //     color: Colors.orange,
+                          //     child: Center(child: Text("    open", style: TextStyle( color: Colors.white, fontWeight: FontWeight.w600 ),)),
+                          //   ),
+                          // )
                         ],
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 7,),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-
-                     
-                          wrapedChips( storeCategories),
-                      
-
-                      // ClipPath(
-                      //   clipper: TripeziumButton(),
-                      //   child: Container(
-                      //     width: 65,
-                      //     height: 30,
-                      //     color: Colors.orange,
-                      //     child: Center(child: Text("    open", style: TextStyle( color: Colors.white, fontWeight: FontWeight.w600 ),)),
-                      //   ),
-                      // )
-
-                    ],
-                      ),
-                  ),
-                  SizedBox(height: 3,),
-                  InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => StoreProducts()  ));
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.orange,
-                      child: Center(
-                        child: Text(
-                          "Open", style: TextStyle( color: Colors.white),
-                        ),
-                      )
-                    )
-                  )
-                ],
-              ))
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StoreProducts()));
+                        },
+                        child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.orange,
+                            child: Center(
+                              child: Text(
+                                "Open",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )))
+                  ],
+                ))
           ],
         ),
       ),
@@ -631,52 +613,51 @@ class StoreCards extends StatelessWidget {
   }
 }
 
-
-Widget wrapedChips (var storeCategories ){
-List categorie = storeCategories.split(" ");
-print("$categorie");
+Widget wrapedChips(var storeCategories) {
+  List categorie = storeCategories.split(" ");
+  print("$categorie");
 
   return Wrap(
     direction: Axis.horizontal,
     spacing: 2.0,
     runSpacing: 3.0,
     children: <Widget>[
-      for ( String texts in categorie )
-       Container(
-         width: 48,
-         height: 28,
-         child: Center(child: Text(texts, style: TextStyle( fontSize:9  ),)),
-         decoration: BoxDecoration(
-           border:Border.all(
-             style: BorderStyle.solid,
-             color: Colors.grey,
-           ),
-           borderRadius: BorderRadius.circular(20.0),
-         ),
-       )
+      for (String texts in categorie)
+        Container(
+          width: 48,
+          height: 28,
+          child: Center(
+              child: Text(
+            texts,
+            style: TextStyle(fontSize: 9),
+          )),
+          decoration: BoxDecoration(
+            border: Border.all(
+              style: BorderStyle.solid,
+              color: Colors.grey,
+            ),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+        )
     ],
   );
 }
 
+// class TripeziumButton extends CustomClipper<Path> {
+//   @override
+//   getClip(Size size) {
 
-class TripeziumButton extends CustomClipper<Path> {
-  @override
-  getClip(Size size) {
-   
-   Path path = Path();
+//    Path path = Path();
 
-   path.moveTo(size.width - (size.width * 0.7), 0.0 );
-   path.lineTo(0, size.height);
-   path.lineTo(size.width, size.height);
-   path.lineTo(size.width, 0);
-   path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper oldClipper) {
-    
-    return false;
-  }
-
-}
+//    path.moveTo(size.width - (size.width * 0.7), 0.0 );
+//    path.lineTo(0, size.height);
+//    path.lineTo(size.width, size.height);
+//    path.lineTo(size.width, 0);
+//    path.close();
+//     return path;
+//   }
+//   @override
+//   bool shouldReclip(CustomClipper oldClipper) {
+//     return false;
+//   }
+// }

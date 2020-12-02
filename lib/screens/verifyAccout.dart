@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:one_kiosk/models/testinghttp.dart';
+import 'package:one_kiosk/models/signUpuser.dart';
 import 'package:http/http.dart' as http;
 import 'package:one_kiosk/screens/storehome.dart';
 

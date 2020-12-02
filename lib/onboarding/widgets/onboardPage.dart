@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:one_kiosk/onboarding/widgets/drawerPaint.dart';
 import 'package:one_kiosk/onboarding/widgets/models/onboardPageModel.dart';
-import 'package:one_kiosk/screens/account_page.dart';
 import 'package:one_kiosk/screens/signUpPage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:one_kiosk/screens/firstPage.dart';
 
 class OnboardingPage extends StatefulWidget {
   // You are going out by 3
@@ -121,7 +120,6 @@ class _OnboardingPageState extends State<OnboardingPage>
                             color: widget.pageModel.accentColor,
                                   letterSpacing: 1,
                                    fontStyle: FontStyle.normal,
-                          
                           ),
                       ))
                   ],
@@ -136,7 +134,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                 children: <Widget>[
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage() ));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage() ));
                       
                     },
                       child: Text(
@@ -194,7 +192,7 @@ class _OnboardingPageState extends State<OnboardingPage>
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AccountPage()));
+              context, MaterialPageRoute(builder: (context) => FirstPage()));
         },
         child: Container(
           width: 90,

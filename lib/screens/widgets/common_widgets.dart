@@ -20,8 +20,10 @@ class StoreCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       // elevation: 7.0,
+
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -208,4 +210,42 @@ class OrangeButton extends StatelessWidget {
       ),
     ));
   }
+}
+
+
+void showmybottomsheets(BuildContext context, String errMsg){
+  showModalBottomSheet(context: context, builder: (context){
+           return Container(
+             height: 300,
+            color: Colors.transparent,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+              ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                 mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                SizedBox(
+                  height: 20,
+                ),
+                Image.asset("images/exclamation-mark.png", 
+                height: 120,
+                width: 120,
+                ),
+                Text("!Oops", style: TextStyle(fontSize:30, fontWeight: FontWeight.bold) ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text( errMsg, style: TextStyle(fontSize:20, fontWeight: FontWeight.w500))
+            ],
+                ),
+              ),
+            ),
+           );
+         }  );
 }

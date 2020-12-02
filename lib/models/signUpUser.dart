@@ -7,6 +7,7 @@ class User {
   final String password;
   final String state;
   final String country;
+  final String address;
   final String type; // This type means type of user either vendor or consumer
 
   User(
@@ -14,6 +15,7 @@ class User {
       this.lastname,
       this.email,
       this.country,
+      this.address,
       this.password,
       this.phone,
       this.state,
@@ -28,6 +30,7 @@ class User {
       password: json["password"],
       state: json["state"],
       country: json["country"],
+      address: json["address"],
       type: json["type"],
     );
   }
@@ -42,10 +45,10 @@ class User {
         "password": password,
         "state": state,
         "country": country,
+        "address": address,
         "type": type,
       };
   }
-
 }
 
 class ActivateUser {

@@ -10,11 +10,11 @@
 //special character. 
 
 
-    void main() {
+    //void main() {
      	 //var p = "ComplextPassword@123";
      	 //will print True if password is complient else false
     	// print(isPasswordCompliant(p));
-    }
+    //}
     
     // Password validation function
     bool isPasswordCompliant(String password)
